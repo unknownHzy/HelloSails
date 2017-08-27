@@ -1,0 +1,36 @@
+<table>
+    <tr>
+        <th>ID</th>
+        <th>name</th>
+        <th>Email</th>
+        <th>State</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    <% _.forEach(customers, function (customer) { %>
+    <tr data-id="<%= customer.id%>" data-model="customer">
+        <td><%= customer.id%></td>
+        <td><%= customer.name%></td>
+        <td><%= customer.email%></td>
+        <td><%= customer.state ? customer.state : ''%></td>
+        <td><a href="/customer/show/<%= customer.id%>">View</a></td>
+        <td><a href="/customer/edit/<%= customer.id%>">Edit</a></td>
+        <td><a href="/customer/destroy/<%= customer.id%>">Delete</a></td>
+    </tr>
+    <%}) %>
+</table>
+<a href="/customer/new">new customer</a>
+<input type="button" value="Join Studio" onclick="joinStudio()">
+<script type="text/javascript">
+    function joinStudio () {
+        /*io.socket.on('message', function(data){
+            console.log('A user has joined the studio!');
+            console.log(data);
+        });*/
+        io.socket.get('/customer/broadcast', function gotResponse(body, response) {
+            // console.log(response.statusCode, body);
+            console.log(body.msg);
+        })
+    }
+</script>
